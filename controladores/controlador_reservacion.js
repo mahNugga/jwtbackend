@@ -41,18 +41,38 @@ var control_reserva = {
 
     muestraClientere2: async function(req,res){
         var params = req.query;
+        console.log(params);
         try{
             var resecliente = await Reservacion.query().select(
                 'reservacion.id',
                 'reservacion.fecha',
                 'reservacion.hora',
                 'reservacion.cliente_id',
-                'serv.nombre',
-                'serv.hora as ora'
-            ).innerJoin('servicio as serv'
-            ,'reservacion.servicio_id','serv.id')
-            .where('reservacion.cliente_id',params.id)
-            .where('reservacion.fecha',params.fecha);
+                'servicio.nombre as servnom',
+                //'servicio.hora as ora'
+            )
+            .join('servicio'
+            ,'servicio.id','reservacion.servicio_id')
+            //.innerJoin('servicio as serv'
+            //,'reservacion.servicio_id','serv.id')
+            //.innerJoin('reservacion',
+            //'reservacion.cliente_id',params.id)
+            //.where('reservacion.cliente_id',params.id)
+            //.innerJoin('servicio'
+            //,'reservacion.servicio_id','servicio.id')
+            .whereRaw('reservacion.cliente_id = ? AND reservacion.estado_id=1',[params.id]);
+            //.where('reservacion.fecha',params.fecha);
+            //.whereRaw('? between horario.rango_inicio AND horario.rango_fin',[params.fechaing]);
+            /* var fechin = await Horario.query().select(
+                'horario.rango_inicio',
+                'horario.rango_fin',
+                'horario.hora_inicio',
+                'horario.hora_fin',
+                'horario.empleado_id',
+                'empleado.nombre as empnombre',
+                'empleado.apellido'
+            ).innerJoin('empleado','horario.empleado_id','empleado.id')
+            .whereRaw('? between horario.rango_inicio AND horario.rango_fin',[params.fechaing]); */
             if(!resecliente) return res.status(404).send(
                 {message:"No eciste ese regitro siuuu!"}
             );
@@ -69,7 +89,7 @@ var control_reserva = {
         var params = req.body;
         try {
             var cambireser = await Reservacion.query().findById(params.id).patch({
-                estado_id:params.estado
+                estado_id:params.estado_id
             });
             if(!cambireser){
                 return res.status(404).send({
