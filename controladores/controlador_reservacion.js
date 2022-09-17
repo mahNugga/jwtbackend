@@ -43,6 +43,7 @@ var control_reserva = {
         var params = req.query;
         try{
             var resecliente = await Reservacion.query().select(
+                'reservacion.id',
                 'reservacion.fecha',
                 'reservacion.hora',
                 'reservacion.cliente_id',
@@ -50,7 +51,8 @@ var control_reserva = {
                 'serv.hora as ora'
             ).innerJoin('servicio as serv'
             ,'reservacion.servicio_id','serv.id')
-            //.where('reservacion.cliente_id',params.id);
+            .where('reservacion.cliente_id',params.id)
+            .where('reservacion.fecha',params.fecha);
             if(!resecliente) return res.status(404).send(
                 {message:"No eciste ese regitro siuuu!"}
             );
@@ -62,6 +64,26 @@ var control_reserva = {
             console.log(error);
         }
     },
+
+    eliminaReservaCli: async function(req,res){
+        var params = req.body;
+        try {
+            var cambireser = await Reservacion.query().findById(params.id).patch({
+                estado_id:params.estado
+            });
+            if(!cambireser){
+                return res.status(404).send({
+                    message:'reserva no encontrada'
+                });
+            }
+            return res.status(200).send({
+                cambireser:cambireser,
+                message:'Metodo eliminar success!'
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 };
 module.exports = control_reserva;

@@ -18,6 +18,7 @@ ruta.post('/welcome',auth,controlador_ingreso.BievenidaUsuarioMovil);
 ruta.get('/consulta-servicio',controlador_servicio.listarServicios);
 ruta.post('/reservar',la_reserva.nuevaReservacion);
 ruta.get('/consulta-reservacioncliente2',la_reserva.muestraClientere2);
+ruta.put('/eliminar-reservacli',la_reserva.eliminaReservaCli);
 
 
 ruta.get('/verifica-fechas',control_horario.devolverFechas);
