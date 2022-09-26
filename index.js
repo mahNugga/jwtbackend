@@ -2,8 +2,8 @@
 
 const Knex = require('./conn/database');
 var app = require('./app');
-var port = 3909;
+var port = 3700;
 
 app.listen(port,()=> {
-    console.log("servidor de los milagros activo en la url: localhost:3909");
+    console.log("servidor tesis-Centro-Belleza-Carolina-A activo en la url: localhost:3700");
 });

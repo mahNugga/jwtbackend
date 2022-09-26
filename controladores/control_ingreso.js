@@ -48,7 +48,7 @@ var control_ingreso = {
                     {cl_id:usuariom.toJSON},'xKWhaU7DgRk'
                 ,
                 {
-                    expiresIn:'30000',
+                    expiresIn:'30000000',
                 });
                 console.log(token);
                 usuariom.token = token; 
@@ -67,11 +67,76 @@ var control_ingreso = {
         }
     },
 
+    //LOGIN PARA WEB APP
+    loginweb:async function(req,res){
+        var params = req.body;
+        var datos = req.query;
+        /* console.log(params);
+        console.log('--------------------------');
+        console.log(req.query.correo); */
+        var toller;
+        var teller;
+        try{
+            var usuario_c = await Cliente.query().select(
+                'cliente.id',
+                'cliente.nombre',
+                'cliente.apellido',
+                'cliente.correo',
+                'cliente.password'
+            ).where('cliente.correo',datos.correo)
+            .where('cliente.password',datos.password);
+            /* console.log("lo que sale de la query: ");
+            console.log(usuario_c); */
+            if(usuario_c==''){
+
+                var empleado_r = await Empleado.query().select(
+                    'empleado.id',
+                    'empleado.nombre',
+                    'empleado.apellido',
+                    'empleado.rol',
+                    'empleado.correo',
+                    'empleado.password'
+                ).where('empleado.correo',datos.correo)
+                .where('empleado.password',datos.password)
+                .where('empleado.estado',1);
+                if(empleado_r!=''){
+                    return res.status(200).send(
+                        {
+                            empleado_r:empleado_r,
+                            toller:'chingado rol',
+                            teller:empleado_r[0].rol,
+                            message:"Es empleado!"
+                        }
+                    );
+                }else{
+                    return res.status(404).send(
+                        {
+                            teller:6,
+                            message:'registrese!'
+                        }
+                    );
+                }
+            }
+            if(usuario_c!=''){
+                return res.status(200).send(
+                    {
+                        usuario_c:usuario_c,
+                        teller:5,
+                        message:"Es un usuario!"
+                    }
+                );
+            }
+            
+        }catch(error){
+            console.log("el contenido del error:"+error);
+        }
+    },
+
     nuevoCliente: async function(req,res){
         var params = req.body;
         var query = req.query;
         var bodi = req;
-        console.log(params);
+        //console.log(params);
         //console.log(bodi);
         try {
             const usuarioexiste = await Cliente.query().select(
@@ -106,7 +171,7 @@ var control_ingreso = {
                 {c_id:cliente.toJSON},'xKWhaU7DgRk'
             ,
             {
-                expiresIn:'120000',
+                expiresIn:'1200000',
             });
             cliente.token = token;
             return res.status(200).send({
@@ -122,7 +187,7 @@ var control_ingreso = {
         var params = req.body;
 
         try{
-            res.status(200).send("welcome guacho");
+            res.status(200).send("Validacion por token existosa");
         }catch(error){
             console.log(error);
         }
