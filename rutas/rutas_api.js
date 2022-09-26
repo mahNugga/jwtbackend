@@ -18,7 +18,7 @@ var ruta = express.Router();
 //Peticiones get,post,etc
 //PETICIONES DEDICADAS A REGISTROS EMPLEADO
 ruta.get('/home',controlador_empleado.home);
-ruta.post('/test',controlador_empleado.test);
+//ruta.post('/test',controlador_empleado.test);
 ruta.post('/nuevo-empleado',controlador_empleado.nuevoEmpleado);
 ruta.get('/consulta-empleado',controlador_empleado.seleccionaEmpleado);
 ruta.put('/edita-empleado',controlador_empleado.actualizaEmpleado);
@@ -30,7 +30,7 @@ ruta.get('/mantenimiento-empleado',controlador_empleado.sudolistarEmpleados);
 ruta.delete('/mantenimiento-eliminaempleado',controlador_empleado.alohaEmpleado);
 //PETICIONES DEDICADAS AL INGRESO DE LA PLATAFORMA
 ruta.post('/ingreso',controlador_ingreso.login);
-ruta.post('/ingreso-ruta',controlador_ingreso.loginweb);/////////////////////revisar
+ruta.get('/ingreso-ruta',controlador_ingreso.loginweb);
 ruta.post('/nuevo-cliente',controlador_ingreso.nuevoCliente);
 ruta.post('/welcome',auth,controlador_ingreso.BievenidaUsuarioMovil);
 //PETICIONES DEDICADAS AL REGISTRO SERVICIO

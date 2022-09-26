@@ -1,5 +1,5 @@
 const { Model } = require('objection');
-const empleado_especialidad = require('./especialidad_empleado');
+//const empleado_especialidad = require('./especialidad_empleado');
 
 class Empleado extends Model{
     static get tableName(){
@@ -33,7 +33,7 @@ class Empleado extends Model{
         return 'estado';
     }
 
-    static relationMappings = {
+    /* static relationMappings = {
         empleado_especialidad:{
             relation: Model.HasManyRelation,
             modelClass: empleado_especialidad,
@@ -42,7 +42,7 @@ class Empleado extends Model{
                 to: 'empleado_especialidad.empleado_id'
             }
         }
-    };
+    }; */
 };
 
 module.exports = Empleado;

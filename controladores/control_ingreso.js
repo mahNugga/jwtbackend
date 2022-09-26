@@ -71,9 +71,11 @@ var control_ingreso = {
     loginweb:async function(req,res){
         var params = req.body;
         var datos = req.query;
-        /* console.log(params);
+        console.log(params);
         console.log('--------------------------');
-        console.log(req.query.correo); */
+        console.log(req.query.correo); 
+        console.log('--------------------------');
+        console.log(datos);
         var toller;
         var teller;
         try{
@@ -84,7 +86,17 @@ var control_ingreso = {
                 'cliente.correo',
                 'cliente.password'
             ).where('cliente.correo',datos.correo)
-            .where('cliente.password',datos.password);
+            console.log(usuario_c);
+            var criptic = await bcrypt.compare(usuario_c[0].password,datos.password)
+            var usuariom = await Cliente.query().select(
+                'cliente.id',
+                'cliente.nombre',
+                'cliente.apellido',
+                'cliente.correo',
+                'cliente.password'
+            ).where('cliente.correo',datos.correo)
+            .where('cliente.password',criptic);
+            //.where('cliente.password',datos.password);
             /* console.log("lo que sale de la query: ");
             console.log(usuario_c); */
             if(usuario_c==''){

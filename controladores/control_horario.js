@@ -125,6 +125,8 @@ var control_horario={
 
     consultaHorarioAdmin: async function(req,res){
         var params = req.query;
+        console.log("seccion horarios");
+        console.log(params);
         try{
             var homerin = await Horario.query().select(
                 'horario.nombre',
